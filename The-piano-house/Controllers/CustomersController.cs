@@ -9,66 +9,76 @@ namespace The_piano_house.Controllers
     [ApiController]
     public class CustomersController : ControllerBase
     {
-        public static List<Customers> _customers = new List<Customers>();
-        public static int index = 0;
+        private readonly DataContext _conect;
+        public CustomersController(DataContext conect)
+        {
+            _conect = conect;
+        }
+
 
         // GET: api/<CustomersController>
         [HttpGet]
         public List<Customers> Get()
         {
-            return _customers;
+            return _conect.CustomersList;
         }
 
 
         // GET api/<CustomersController>/5
         [HttpGet("{id}")]
-        public Customers Get(int id)
+        public ActionResult< Customers> Get(int id)
         {
-            for (int i = 0; i < index; i++)
-            {
-                if (_customers[i].id == id)
-                    return _customers[i];
-            }
-            return null;
+            var ev = _conect.CustomersList.Find(e => e.id == id);
+
+            if (ev == null)
+                return NotFound();
+
+                return ev;
         }
 
 
         // POST api/<CustomersController>
         [HttpPost]
-        public void Post([FromBody] Customers c)
+        public ActionResult Post([FromBody] Customers c)
         {
-            _customers.Add(new Customers { id = index++,name=c.name,phone=c.phone,address=c.address,lastPurchaseDate=c.lastPurchaseDate  });
+            if (c.id.ToString().Length != 9)
+                return BadRequest();
+            _conect.CustomersList.Add(new Customers { id =c.id,name=c.name,phone=c.phone,address=c.address,lastPurchaseDate=c.lastPurchaseDate  });
+            return Ok();
         }
+
 
         // PUT api/<CustomersController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Customers c)
+        public ActionResult Put(int id, [FromBody] Customers c)
         {
-            for (int i = 0; i < index; i++)
-            {
-                if (_customers[i].id==id)
-                {
-                    _customers[i].name = c.name;
-                    _customers[i].address = c.address;
-                    _customers[i].lastPurchaseDate= c.lastPurchaseDate;
-                    _customers[i].phone= c.phone;
 
-                }
-            }
+
+            var ev = _conect.CustomersList.Find(e => e.id == id);
+
+            if (ev == null)
+                return NotFound();
+            ev.name = c.name;
+            ev.address = c.address;
+            ev.lastPurchaseDate= c.lastPurchaseDate;
+            ev.phone= c.phone;
+         
+            
+             return Ok();
         }
 
         // DELETE api/<CustomersController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult Delete(int id)
         {
-            foreach (Customers item in _customers)
-            {
-                if (item.id == id)
-                {
-                    _customers.Remove(item);
-                    break;
-                }
-            }
+            var ev = _conect.CustomersList.Find(e => e.id == id);
+
+            if (ev == null)
+                return NotFound();             
+          _conect.CustomersList.Remove(ev);
+            return Ok();      
+                
+            
         }
     }
 }

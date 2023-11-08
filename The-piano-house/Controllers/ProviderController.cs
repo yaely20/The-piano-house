@@ -9,63 +9,70 @@ namespace The_piano_house.Controllers
     [ApiController]
     public class ProviderController : ControllerBase
     {
-        public static List<Provider> _provider = new List<Provider>();
-        public static int index = 0;
-
+        private readonly DataContext _conect;
+        public ProviderController(DataContext conect)
+        {
+            _conect = conect;
+        }
 
         // GET: api/<ProviderController>
         [HttpGet]
         public List<Provider> Get()
         {
-            return _provider;
+            return _conect.ProviderList ;
         }
 
         // GET api/<ProviderController>/5
         [HttpGet("{id}")]
-        public Provider Get(int id)
+        public ActionResult< Provider> Get(int id)
         {
-            for (int i = 0; i < index; i++)
-            {
-                if (_provider[i].id == id)
-                    return _provider[i];
-            }
-            return null;
+            var ev = _conect.ProviderList.Find(e => e.id == id);
+
+            if (ev == null)
+                return NotFound();
+
+            return ev;
         }
         // POST api/<ProviderController>
         [HttpPost]
-        public void Post([FromBody] Customers p)
+        public ActionResult Post([FromBody] Provider p)
         {
-            _provider.Add(new Provider { id = index++, name = p.name, phone = p.phone, address = p.address });
+            if (p.id.ToString().Length != 9)
+                return BadRequest();
+
+            _conect.ProviderList.Add(new Provider { id =p.id, name = p.name, phone = p.phone, address = p.address });
+            return Ok();
         }
 
         // PUT api/<ProviderController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Provider p)
+        public ActionResult Put(int id, [FromBody] Provider p)
         {
-            for (int i = 0; i < index; i++)
-            {
-                if (_provider[i].id == id)
-                {
-                   _provider[i].name = p.name;
-                   _provider[i].address = p.address;
-                    _provider[i].phone = p.phone;
 
-                }
-            }
+            var ev = _conect.ProviderList.Find(e => e.id == id);
+
+            if (ev == null)
+                return NotFound();
+                  ev.name = p.name;
+                  ev.address = p.address;
+                  ev.phone = p.phone;
+                  
+            return Ok();
+                
+            
         }
 
         // DELETE api/<ProviderController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult Delete(int id)
         {
-            foreach (Provider item in _provider)
-            {
-                if (item.id == id)
-                {
-                    _provider.Remove(item);
-                    break;
-                }
-            }
+            var ev = _conect.ProviderList.Find(e => e.id == id);
+
+            if (ev == null)
+                return NotFound();
+            _conect.ProviderList.Remove(ev);
+            return Ok();
+
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace The_piano_house.Entities
 {
-    public class Customers
+    public class Customers   
     {
         public int id { get; set; }
         public string? name { get; set; }
