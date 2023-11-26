@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>The_Piano_house.Servise</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\The-Piano-house.Core\The-Piano-house.Core.csproj" />
+    <ProjectReference Include="..\The-Piano-house.Data\The-Piano-house.Data.csproj" />
+  </ItemGroup>
+
+</Project>

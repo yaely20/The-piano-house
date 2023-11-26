@@ -1,6 +1,6 @@
-﻿namespace The_piano_house.Entities
+﻿namespace The_piano_house.Core.Entities
 {
-    public class Customers
+    public class Customers   
     {
         public int id { get; set; }
         public string? name { get; set; }

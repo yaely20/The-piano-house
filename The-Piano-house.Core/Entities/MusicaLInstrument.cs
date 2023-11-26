@@ -1,4 +1,4 @@
-﻿namespace The_piano_house.Entities
+﻿namespace The_piano_house.Core.Entities
 {
     public class MusicaLInstrument
     {

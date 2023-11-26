@@ -11,4 +11,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\The-Piano-house.Core\The-Piano-house.Core.csproj" />
+    <ProjectReference Include="..\The-Piano-house.Data\The-Piano-house.Data.csproj" />
+    <ProjectReference Include="..\The-Piano-house.Servise\The-Piano-house.Servise.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,3 +1,10 @@
+using The_piano_house;
+using The_piano_house.Data;
+using The_Piano_house.Core.Repositories;
+using The_Piano_house.Core.Services;
+using The_Piano_house.Data.Repositories;
+using The_Piano_house.Servise;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +13,17 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton<DataContext>();
+
+builder.Services.AddScoped<ICustomersService, CustomersService>();
+builder.Services.AddScoped<ICustomersRepository, CustomersRepository>();
+
+builder.Services.AddScoped<IMusicaLInstrumentService, MusicaLInstrumentService>();
+builder.Services.AddScoped<IMusicaLInstrumentRepository, MusicaLInstrumentRepository>();
+
+builder.Services.AddScoped<IProviderService, ProviderService>();
+builder.Services.AddScoped<IProviderRepository, ProviderRepository>();
+builder.Services.AddSingleton<DataContext>();
 
 var app = builder.Build();
 

@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace The_piano_house.Entities
+namespace The_piano_house.Core.Entities
 {
     public class Provider
     {
@@ -9,7 +9,7 @@ namespace The_piano_house.Entities
 
       public string? name   { get; set; }
       public string? phone { get; set; }
-       public string? address      { get; set; }
+      public string? address      { get; set; }
 
      
     }
