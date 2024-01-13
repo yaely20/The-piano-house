@@ -10,13 +10,13 @@ namespace The_Piano_house.Core.Services
 {
     public interface ICustomersService
     {
-        List<Customers> Get();
+        IEnumerable<Customer> Get();
 
-        Customers Get(int id);
+        Customer Get(int id);
 
-        void Post([FromBody] Customers c);
+        Customer Post([FromBody] Customer c);
 
-        void Put(int id, [FromBody] Customers c);
+        Customer Put(int id, [FromBody] Customer c);
 
         void Delete(int id);
 

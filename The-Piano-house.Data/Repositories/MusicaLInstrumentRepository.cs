@@ -14,44 +14,51 @@ namespace The_Piano_house.Data.Repositories
     public class MusicaLInstrumentRepository : IMusicaLInstrumentRepository
     {
         private readonly DataContext _context;
+      
+
+     //   public object MusicalInstrumentsList => throw new NotImplementedException();
 
         public MusicaLInstrumentRepository(DataContext context)
         {
             _context = context;
         }
 
-        public List<MusicaLInstrument> Get()
+        public IEnumerable<MusicalInstrument> Get()
         {
-            return _context.MusicaLInstrumentList;
+            return _context.MusicaLInstruments;
         }
 
-        public MusicaLInstrument Get(int id)
+        public MusicalInstrument Get(int id)
         {
-            return _context.MusicaLInstrumentList.First(u => u.code== id);
+            return _context.MusicaLInstruments.Find(id);
         }
 
-        public void Post([FromBody] MusicaLInstrument m)
+        public MusicalInstrument Post( MusicalInstrument m)
         {
-            _context.MusicaLInstrumentList.Add(new MusicaLInstrument {code = _context.index++, name = m.name, manufacturer = m.manufacturer, costPrice = m.costPrice, purchasePrice = m.purchasePrice, stockpile = m.stockpile, providerCode = m.providerCode });
-
+            _context.MusicaLInstruments.Add(new MusicalInstrument {Id = _context.index++, Name = m.Name, Manufacturer = m.Manufacturer, CostPrice = m.CostPrice, PurchasePrice = m.PurchasePrice, Stockpile = m.Stockpile, ProviderCode = m.ProviderCode });
+            _context.SaveChanges();
+            return m;
         }
 
-        public void Put(int id, [FromBody] MusicaLInstrument m)
+        public MusicalInstrument Put(int id,  MusicalInstrument m)
         {
-            var ev = _context.MusicaLInstrumentList.Find(e => e.code == id);
-            ev.name = m.name;
-            ev.manufacturer = m.manufacturer;
-            ev.costPrice = m.costPrice;
-            ev.purchasePrice = m.purchasePrice;
-            ev.stockpile = m.stockpile;
-            ev.providerCode = m.providerCode;
+            var ev = Get(id);
+            ev.Name = m.Name;
+            ev.Manufacturer = m.Manufacturer;
+            ev.CostPrice = m.CostPrice;
+            ev.PurchasePrice = m.PurchasePrice;
+            ev.Stockpile = m.Stockpile;
+            ev.ProviderCode = m.ProviderCode;
+            _context.SaveChanges();
+            return ev;
         }
      public void Delete(int id)
 
      {
-         var ev = _context.MusicaLInstrumentList.Find(e => e.code == id);
-        _context.MusicaLInstrumentList.Remove(ev);
-           
-     }
+         var ev = Get(id);
+            _context.MusicaLInstruments.Remove(ev);
+            _context.SaveChanges();
+
+        }
 }
 }

@@ -18,12 +18,12 @@ namespace The_Piano_house.Servise
         {
             _customersRepository = customersRepository;
         }
-        public   List<Customers> Get()
+        public   IEnumerable<Customer> Get()
         {
             return _customersRepository.Get();
         }
         //public ActionResult<Customers> Get(int id)
-           public Customers Get(int id)
+           public Customer Get(int id)
         {
            return _customersRepository.Get(id);
             //var e= _customersRepository.Get(id);
@@ -36,14 +36,14 @@ namespace The_Piano_house.Servise
         }
     
 
-        public void Post([FromBody] Customers c)
+        public Customer Post(Customer c)
         {
-            _customersRepository.Post(c);
+           return _customersRepository.Post(c);
         }
 
-        public void Put(int id, [FromBody] Customers c)
+        public Customer Put(int id,  Customer c)
         {
-           _customersRepository.Put(id, c);
+          return _customersRepository.Put(id, c);
         }
         public void Delete(int id)
         {

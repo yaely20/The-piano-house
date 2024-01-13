@@ -13,36 +13,36 @@ namespace The_Piano_house.Servise
 {
     public class MusicaLInstrumentService : IMusicaLInstrumentService
     {
-        private readonly IMusicaLInstrumentRepository _MusicaLInstrumentRepository;
+        private readonly IMusicaLInstrumentRepository _musicaLInstrumentRepository;
 
         public MusicaLInstrumentService(IMusicaLInstrumentRepository MusicaLInstrumentRepository)
         {
-            _MusicaLInstrumentRepository = MusicaLInstrumentRepository;
+            _musicaLInstrumentRepository = MusicaLInstrumentRepository;
         }
        
 
-        public List<MusicaLInstrument> Get()
+        public IEnumerable<MusicalInstrument> Get()
         {
-            return _MusicaLInstrumentRepository.Get();
+            return _musicaLInstrumentRepository.Get();
         }
 
-        public MusicaLInstrument Get(int id)
+        public MusicalInstrument Get(int id)
         {
-            return _MusicaLInstrumentRepository.Get(id);
+            return _musicaLInstrumentRepository.Get(id);
         }
 
-        public void Post([FromBody] MusicaLInstrument m)
+        public MusicalInstrument Post(MusicalInstrument m)
         {
-            _MusicaLInstrumentRepository.Post(m);   
+           return _musicaLInstrumentRepository.Post(m);   
         }
 
-        public void Put(int id, [FromBody] MusicaLInstrument m)
+        public MusicalInstrument Put(int id, MusicalInstrument m)
         {
-            _MusicaLInstrumentRepository.Put(id, m);    
+           return _musicaLInstrumentRepository.Put(id, m);    
         }
         public void Delete(int id)
         {
-            _MusicaLInstrumentRepository.Delete(id);
+            _musicaLInstrumentRepository.Delete(id);
         }
     }
 }

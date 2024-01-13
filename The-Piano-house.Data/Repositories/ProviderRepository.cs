@@ -14,40 +14,47 @@ namespace The_Piano_house.Data.Repositories
     public class ProviderRepository : IProviderRepository
     {
         private readonly DataContext _context;
+      //  public object ProvidersList => throw new NotImplementedException();
+
 
         public ProviderRepository(DataContext context)
         {
             _context = context;
         }
-        public List<Provider> Get()
+        public IEnumerable<Provider> Get()
         {
-            return _context.ProviderList;
+            return _context.Providers;
         }
 
         public Provider Get(int id)
         {
-            return _context.ProviderList.First(u => u.id == id);
+            return _context.Providers.Find(id);
         }
 
-        public void Post([FromBody] Provider p)
+        public Provider Post( Provider p)
         {
             
-            _context.ProviderList.Add(new Provider { id = p.id, name = p.name, phone = p.phone, address = p.address });
+            _context.Providers.Add(new Provider { Id = p.Id, Name = p.Name, Phone = p.Phone, Address = p.Address });
+            _context.SaveChanges();
+            return p;
         }
 
-        public void Put(int id, [FromBody] Provider p)
+        public Provider Put(int id,  Provider p)
         {
-            var ev = _context.ProviderList.Find(e => e.id == id);
-            ev.name = p.name;
-            ev.address = p.address;
-            ev.phone = p.phone;
+            var ev = Get(id);
+            ev.Name = p.Name;
+            ev.Address = p.Address;
+            ev.Phone = p.Phone;
+            _context.SaveChanges();
+            return ev;
 
         }
         public void Delete(int id)
         {
-            var ev = _context.ProviderList.Find(e => e.id == id);
-            _context.ProviderList.Remove(ev);
-          
+            var ev = Get(id);
+            _context.Providers.Remove(ev);
+            _context.SaveChanges();
+
         }
     }
 }

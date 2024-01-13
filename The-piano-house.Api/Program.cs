@@ -1,5 +1,6 @@
 using The_piano_house;
 using The_piano_house.Data;
+using The_Piano_house.Core;
 using The_Piano_house.Core.Repositories;
 using The_Piano_house.Core.Services;
 using The_Piano_house.Data.Repositories;
@@ -23,7 +24,11 @@ builder.Services.AddScoped<IMusicaLInstrumentRepository, MusicaLInstrumentReposi
 
 builder.Services.AddScoped<IProviderService, ProviderService>();
 builder.Services.AddScoped<IProviderRepository, ProviderRepository>();
-builder.Services.AddSingleton<DataContext>();
+//builder.Services.AddSingleton<DataContext>();
+builder.Services.AddDbContext<DataContext>();
+
+builder.Services.AddAutoMapper(typeof(MapperProfile));
+
 
 var app = builder.Build();
 

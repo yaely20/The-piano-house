@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using The_piano_house.Core.Entities;
+using The_Piano_house.Core.DTOs;
 using The_Piano_house.Core.Services;
 using The_Piano_house.Servise;
+using The_piano_house.Api.Models;
+
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,22 +16,25 @@ namespace The_piano_house.Api.Controllers
     public class MusicaLInstrumentController : ControllerBase
     {
         private readonly IMusicaLInstrumentService _musicaLInstrumentService;
-        public MusicaLInstrumentController(IMusicaLInstrumentService musicaLInstrumentService)
+        private readonly IMapper _mapper;
+
+        public MusicaLInstrumentController(IMusicaLInstrumentService musicaLInstrumentService, IMapper mapper)
         {
             _musicaLInstrumentService = musicaLInstrumentService;
-        }
+            _mapper = mapper;
+        } 
         // GET: api/<MusicaLInstrumentController>
         [HttpGet]
-        public List<MusicaLInstrument> Get()
+        public ActionResult<MusicalInstrument> Get()
         {
-            return  _musicaLInstrumentService.Get();
+            return Ok(_musicaLInstrumentService.Get());
         }
 
         // GET api/<MusicaLInstrumentController>/5
         [HttpGet("{id}")]
-        public ActionResult< MusicaLInstrument> Get(int id)
+        public ActionResult<MusicalInstrument> Get(int id)
         {
-           return _musicaLInstrumentService.Get(id);
+            return Ok( _musicaLInstrumentService.Get(id));
 
             //if (ev == null)
             //   return NotFound();
@@ -36,34 +43,51 @@ namespace The_piano_house.Api.Controllers
 
         // POST api/<MusicaLInstrumentController>
         [HttpPost]
-        public void Post([FromBody] MusicaLInstrument m)
+        public ActionResult Post([FromBody] MusicalInstrumentPostModel m)
         {
-            _musicaLInstrumentService.Post(m);  
+            var mToAdd = new MusicalInstrument { Name = m.Name, Manufacturer = m.Manufacturer, CostPrice = m.CostPrice, PurchasePrice=m.PurchasePrice, Stockpile=m.Stockpile,ProviderId=m.ProviderId };
+
+            var newm = _musicaLInstrumentService.Post(mToAdd);
+            var mDto = _mapper.Map<MusicalInstrumentDTO>(newm);
+            return Ok(mToAdd);
+
+          
         }
 
         // PUT api/<MusicaLInstrumentController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] MusicaLInstrument m)
+        public ActionResult Put(int id, [FromBody] MusicalInstrumentPostModel m)
         {
-            
-           _musicaLInstrumentService .Put(id, m);
-           // if (ev == null)
-           // return NotFound();
-           
-           return Ok();  
-            
+           MusicalInstrument mmm=new MusicalInstrument();
+            mmm.Name = m.Name;  
+            mmm.Manufacturer = m.Manufacturer;
+            mmm.CostPrice = m.CostPrice;
+            mmm.PurchasePrice = m.PurchasePrice;
+            mmm.Stockpile = m.Stockpile;   
+            mmm.ProviderId = m.ProviderId;
+            var newmm = _musicaLInstrumentService.Put(id, mmm);
+            var mDto = _mapper.Map<MusicalInstrumentDTO>(newmm);
+            return Ok(mmm);
+            // if (ev == null)
+            // return NotFound();
+
+          
+
         }
 
         // DELETE api/<MusicaLInstrumentController>/5
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-           
+            var mu = _musicaLInstrumentService.Get(id);
+            if (mu is null)
+            {
+                return NotFound();
+            }
             _musicaLInstrumentService.Delete(id);
+            return NoContent();
             //if (ev == null)
             //   return NotFound();
-           
-            return Ok();
         }
     }
 }

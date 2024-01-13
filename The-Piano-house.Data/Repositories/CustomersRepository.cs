@@ -17,47 +17,54 @@ using The_Piano_house.Core.Repositories;
 namespace The_Piano_house.Data.Repositories
 
 {
-    public class CustomersRepository: ICustomersRepository
+    public class CustomersRepository : ICustomersRepository
     {
         private readonly DataContext _context;
 
-        public object CustomersList => throw new NotImplementedException();
+    //    public object CustomersList => throw new NotImplementedException();
 
         public CustomersRepository(DataContext context)
         {
             _context = context;
         }
 
-        public List<Customers> Get()
+        public IEnumerable<Customer> Get()
         {
-            return _context.CustomersList;
+            return _context.Customers;
         }
-        public Customers Get(int id)
+
+        public Customer Get(int id)
         {
-            return _context.CustomersList.First(u => u.id == id);
+            return _context.Customers.Find(id);
+
 
         }
 
-        public void Post([FromBody] Customers c)
+        public Customer Post( Customer c)
         {
-           
-            _context.CustomersList.Add(new Customers { id = c.id, name = c.name, phone = c.phone, address = c.address, lastPurchaseDate = c.lastPurchaseDate });
-            
+
+            _context.Customers.Add(new Customer { Id = c.Id, Name = c.Name, Phone = c.Phone, Address = c.Address, LastPurchaseDate = c.LastPurchaseDate });
+            _context.SaveChanges();
+            return c;
         }
 
-        public void Put(int id, [FromBody] Customers c)
+        public Customer Put(int id, Customer c)
         {
-            var ev = _context.CustomersList.Find(e => e.id == id);
-            ev.name = c.name;
-            ev.address = c.address;
-            ev.lastPurchaseDate = c.lastPurchaseDate;
-            ev.phone = c.phone;
+            var ev = Get(id);
+            ev.Name = c.Name;
+            ev.Address = c.Address;
+            ev.LastPurchaseDate = c.LastPurchaseDate;
+            ev.Phone = c.Phone;
+            _context.SaveChanges();
+            return ev;
         }
         public void Delete(int id)
         {
-            var ev = _context.CustomersList.Find(e => e.id == id);    
-            _context.CustomersList.Remove(ev);
-           
+            var ev = Get(id);
+            _context.Customers.Remove(ev);
+            _context.SaveChanges();
+
         }
+
     }
 }

@@ -13,35 +13,35 @@ namespace The_Piano_house.Servise
 {
     public class ProviderService:IProviderService
     {
-        private readonly IProviderRepository _ProviderRepository;
+        private readonly IProviderRepository _providerRepository;
 
         public ProviderService(IProviderRepository ProviderRepository)
         {
-            _ProviderRepository = ProviderRepository;
+            _providerRepository = ProviderRepository;
         }
 
-        public List<Provider> Get()
+        public IEnumerable<Provider> Get()
         {
-          return  _ProviderRepository.Get();
+          return  _providerRepository.Get();
         }
 
         public Provider Get(int id)
         {
-            return _ProviderRepository.Get(id);
+            return _providerRepository.Get(id);
         }
 
-        public void Post([FromBody] Provider p)
+        public Provider Post( Provider p)
         {
-           _ProviderRepository.Post(p); 
+         return  _providerRepository.Post(p); 
         }
 
-        public void Put(int id, [FromBody] Provider p)
+        public Provider Put(int id, Provider p)
         {
-            _ProviderRepository.Put(id, p); 
+         return   _providerRepository.Put(id, p); 
         }
         public void Delete(int id)
         {
-        _ProviderRepository.Delete(id);  
+        _providerRepository.Delete(id);  
         }
     }
 }
