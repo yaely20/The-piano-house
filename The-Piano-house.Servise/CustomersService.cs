@@ -18,14 +18,14 @@ namespace The_Piano_house.Servise
         {
             _customersRepository = customersRepository;
         }
-        public   IEnumerable<Customer> Get()
+        public async Task<  IEnumerable<Customer>> Get()
         {
-            return _customersRepository.Get();
+            return await _customersRepository.Get();
         }
         //public ActionResult<Customers> Get(int id)
-           public Customer Get(int id)
+           public async Task< Customer> Get(int id)
         {
-           return _customersRepository.Get(id);
+           return await _customersRepository.Get(id);
             //var e= _customersRepository.Get(id);
 
             // if (e == null)
@@ -36,18 +36,18 @@ namespace The_Piano_house.Servise
         }
     
 
-        public Customer Post(Customer c)
+        public async Task <Customer> Post(Customer c)
         {
-           return _customersRepository.Post(c);
+           return await _customersRepository.Post(c);
         }
 
-        public Customer Put(int id,  Customer c)
+        public async Task <Customer> Put(int id,  Customer c)
         {
-          return _customersRepository.Put(id, c);
+          return await _customersRepository.Put(id, c);
         }
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            _customersRepository.Delete(id);
+              await  _customersRepository.Delete(id);
         }
     }
 }

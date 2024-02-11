@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,41 +24,40 @@ namespace The_Piano_house.Data.Repositories
             _context = context;
         }
 
-        public IEnumerable<MusicalInstrument> Get()
+        public async Task < IEnumerable<MusicalInstrument>> Get()
         {
-            return _context.MusicaLInstruments;
+            return await _context.MusicaLInstruments.ToListAsync();
         }
 
-        public MusicalInstrument Get(int id)
+        public async Task <MusicalInstrument> Get(int id)
         {
-            return _context.MusicaLInstruments.Find(id);
+            return await _context.MusicaLInstruments.FindAsync(id);
         }
 
-        public MusicalInstrument Post( MusicalInstrument m)
+        public async Task< MusicalInstrument> Post( MusicalInstrument m)
         {
             _context.MusicaLInstruments.Add(new MusicalInstrument {Id = _context.index++, Name = m.Name, Manufacturer = m.Manufacturer, CostPrice = m.CostPrice, PurchasePrice = m.PurchasePrice, Stockpile = m.Stockpile, ProviderCode = m.ProviderCode });
-            _context.SaveChanges();
+          await  _context.SaveChangesAsync();
             return m;
         }
 
-        public MusicalInstrument Put(int id,  MusicalInstrument m)
+        public async Task< MusicalInstrument> Put(int id,  MusicalInstrument m)
         {
-            var ev = Get(id);
+            var ev = await Get(id);
             ev.Name = m.Name;
             ev.Manufacturer = m.Manufacturer;
             ev.CostPrice = m.CostPrice;
             ev.PurchasePrice = m.PurchasePrice;
             ev.Stockpile = m.Stockpile;
             ev.ProviderCode = m.ProviderCode;
-            _context.SaveChanges();
+          await  _context.SaveChangesAsync();
             return ev;
         }
-     public void Delete(int id)
-
+     public async Task Delete(int id)
      {
-         var ev = Get(id);
+         var ev = await Get(id);
             _context.MusicaLInstruments.Remove(ev);
-            _context.SaveChanges();
+          await  _context.SaveChangesAsync();
 
         }
 }

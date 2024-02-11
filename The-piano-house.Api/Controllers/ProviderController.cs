@@ -26,17 +26,17 @@ namespace The_piano_house.Api.Controllers
 
         // GET: api/<ProviderController>
         [HttpGet]
-        public ActionResult<Provider> Get()
+        public async Task <ActionResult<Provider>> Get()
         {
-            return Ok( _providerService.Get());
+            return Ok(await _providerService.Get());
         }
 
         // GET api/<ProviderController>/5
         [HttpGet("{id}")]
-        public ActionResult<Provider> Get(int id)
+        public async Task< ActionResult<Provider>> Get(int id)
         {
 
-            return Ok( _providerService.Get(id));
+            return Ok( await _providerService.Get(id));
             //if (ev == null)
             //   return NotFound();
 
@@ -44,11 +44,11 @@ namespace The_piano_house.Api.Controllers
         }
         // POST api/<ProviderController>
         [HttpPost]
-        public ActionResult Post([FromBody] ProviderPostModel p)
+        public async Task <ActionResult> Post([FromBody] ProviderPostModel p)
         {
             var pToadd = new Provider { Name = p.Name, Phone = p.Phone, Address = p.Address };
 
-            var newp = _providerService.Post(pToadd); 
+            var newp = await _providerService.Post(pToadd); 
             var custumerDto = _mapper.Map<ProviderDTO>(newp);
             return Ok(pToadd);
             // if (p.id.ToString().Length != 9)
@@ -59,14 +59,14 @@ namespace The_piano_house.Api.Controllers
 
         // PUT api/<ProviderController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] ProviderPostModel p)
+        public async Task<ActionResult> Put(int id, [FromBody] ProviderPostModel p)
         {
 
             Provider p1 = new Provider();
             p1.Name = p.Name;
             p1.Phone = p.Phone;
             p1.Address = p.Address;
-            var newp = _providerService.Put(id, p1);
+            var newp = await _providerService.Put(id, p1);
             var custumerDto = _mapper.Map<ProviderDTO>(newp);
 
             //if (ev == null)
@@ -76,15 +76,15 @@ namespace The_piano_house.Api.Controllers
 
         // DELETE api/<ProviderController>/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        public async Task< ActionResult> Delete(int id)
         {
-            var pro = _providerService.Get(id);
+            var pro = await _providerService.Get(id);
             if (pro is null)
             {
                 return NotFound();
             }
 
-            _providerService.Delete(id);
+         await _providerService.Delete(id);
             return NoContent();
             // if (ev == null)
             //    return NotFound();

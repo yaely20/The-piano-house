@@ -10,16 +10,16 @@ namespace The_Piano_house.Core.Repositories
 {
     public interface IProviderRepository
     {
-      //  object ProvidersList { get; }
-        IEnumerable<Provider> Get();
+        //  object ProvidersList { get; }
+        Task<IEnumerable<Provider>> Get();
 
-        Provider Get(int id);
+        Task<Provider> Get(int id);
 
-       Provider Post([FromBody] Provider p);
+       Task<Provider> Post(Provider p);
 
-        Provider Put(int id, [FromBody] Provider p);
+        Task<Provider> Put(int id, Provider p);
 
-        void Delete(int id);
+        Task Delete(int id);
 
     }
 }

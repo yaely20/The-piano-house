@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,39 +22,39 @@ namespace The_Piano_house.Data.Repositories
         {
             _context = context;
         }
-        public IEnumerable<Provider> Get()
+        public async Task <IEnumerable<Provider>> Get()
         {
-            return _context.Providers;
+            return await _context.Providers.ToListAsync();
         }
 
-        public Provider Get(int id)
+        public async Task  <Provider> Get(int id)
         {
-            return _context.Providers.Find(id);
+            return await _context.Providers.FindAsync(id);
         }
 
-        public Provider Post( Provider p)
+        public async Task <Provider> Post( Provider p)
         {
             
             _context.Providers.Add(new Provider { Id = p.Id, Name = p.Name, Phone = p.Phone, Address = p.Address });
-            _context.SaveChanges();
+           await  _context.SaveChangesAsync();
             return p;
         }
 
-        public Provider Put(int id,  Provider p)
+        public async Task <Provider> Put(int id,  Provider p)
         {
-            var ev = Get(id);
+            var ev = await Get(id);
             ev.Name = p.Name;
             ev.Address = p.Address;
             ev.Phone = p.Phone;
-            _context.SaveChanges();
+            await  _context.SaveChangesAsync();
             return ev;
 
         }
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            var ev = Get(id);
+            var ev =await Get(id);
             _context.Providers.Remove(ev);
-            _context.SaveChanges();
+           await _context.SaveChangesAsync();
 
         }
     }

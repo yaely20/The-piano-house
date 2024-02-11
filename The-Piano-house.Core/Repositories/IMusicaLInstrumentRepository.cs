@@ -10,16 +10,15 @@ namespace The_Piano_house.Core.Repositories
 {
     public interface IMusicaLInstrumentRepository
     {
-       // object MusicalInstrumentsList { get; }
-        IEnumerable<MusicalInstrument> Get();
+        // object MusicalInstrumentsList { get; }
+        Task<IEnumerable<MusicalInstrument>> Get();
 
-         MusicalInstrument Get(int id);
+        Task<MusicalInstrument> Get(int id);
 
-        MusicalInstrument Post([FromBody] MusicalInstrument m);
+        Task<MusicalInstrument> Post(MusicalInstrument m);
 
-        MusicalInstrument Put(int id, [FromBody] MusicalInstrument m);
-
-        void Delete(int id);
+        Task<MusicalInstrument> Put(int id, MusicalInstrument m);
+        Task Delete(int id);
 
     }
 }

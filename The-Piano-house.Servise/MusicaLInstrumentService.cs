@@ -21,28 +21,28 @@ namespace The_Piano_house.Servise
         }
        
 
-        public IEnumerable<MusicalInstrument> Get()
+        public async Task <IEnumerable<MusicalInstrument>> Get()
         {
-            return _musicaLInstrumentRepository.Get();
+            return await _musicaLInstrumentRepository.Get();
         }
 
-        public MusicalInstrument Get(int id)
+        public async Task<MusicalInstrument> Get(int id)
         {
-            return _musicaLInstrumentRepository.Get(id);
+            return await _musicaLInstrumentRepository.Get(id);
         }
 
-        public MusicalInstrument Post(MusicalInstrument m)
+        public async Task <MusicalInstrument> Post(MusicalInstrument m)
         {
-           return _musicaLInstrumentRepository.Post(m);   
+           return await _musicaLInstrumentRepository.Post(m);   
         }
 
-        public MusicalInstrument Put(int id, MusicalInstrument m)
+        public async Task <MusicalInstrument> Put(int id, MusicalInstrument m)
         {
-           return _musicaLInstrumentRepository.Put(id, m);    
+           return  await _musicaLInstrumentRepository.Put(id, m);    
         }
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            _musicaLInstrumentRepository.Delete(id);
+          await  _musicaLInstrumentRepository.Delete(id);
         }
     }
 }

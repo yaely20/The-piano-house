@@ -13,6 +13,7 @@ using The_piano_house;
 using The_piano_house.Core.Entities;
 using The_piano_house.Data;
 using The_Piano_house.Core.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace The_Piano_house.Data.Repositories
 
@@ -28,41 +29,43 @@ namespace The_Piano_house.Data.Repositories
             _context = context;
         }
 
-        public IEnumerable<Customer> Get()
+        public async  Task< IEnumerable<Customer>> Get()
         {
-            return _context.Customers;
-        }
-
-        public Customer Get(int id)
-        {
-            return _context.Customers.Find(id);
-
+            return await _context.Customers.ToListAsync();
+          //  return await _context.Customers.Include(Customer => Customer.Plan).ToListAsync();
 
         }
 
-        public Customer Post( Customer c)
+        public async Task <Customer> Get(int id)
+        {
+            return await _context.Customers.FindAsync(id);
+
+
+        }
+
+        public async Task<Customer> Post( Customer c)
         {
 
             _context.Customers.Add(new Customer { Id = c.Id, Name = c.Name, Phone = c.Phone, Address = c.Address, LastPurchaseDate = c.LastPurchaseDate });
-            _context.SaveChanges();
+         await   _context.SaveChangesAsync();
             return c;
         }
 
-        public Customer Put(int id, Customer c)
+        public async Task <Customer> Put(int id, Customer c)
         {
-            var ev = Get(id);
+            var ev = await Get(id);
             ev.Name = c.Name;
             ev.Address = c.Address;
             ev.LastPurchaseDate = c.LastPurchaseDate;
             ev.Phone = c.Phone;
-            _context.SaveChanges();
+          await  _context.SaveChangesAsync();
             return ev;
         }
-        public void Delete(int id)
+        public async Task  Delete(int id)
         {
-            var ev = Get(id);
+            var ev = await Get(id);
             _context.Customers.Remove(ev);
-            _context.SaveChanges();
+         await _context.SaveChangesAsync();
 
         }
 

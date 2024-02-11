@@ -10,15 +10,14 @@ namespace The_Piano_house.Core.Services
 {
     public interface IProviderService
     {
-        IEnumerable<Provider> Get();
+        Task<IEnumerable<Provider>> Get();
 
-        Provider Get(int id);
+        Task<Provider> Get(int id);
 
-        Provider Post([FromBody] Provider p);
+        Task<Provider> Post(Provider p);
 
-        Provider Put(int id, [FromBody] Provider p);
-
-        void Delete(int id);
+        Task<Provider> Put(int id, Provider p);
+        Task Delete(int id);
 
     }
 }

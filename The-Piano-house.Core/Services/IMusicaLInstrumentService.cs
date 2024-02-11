@@ -10,14 +10,14 @@ namespace The_Piano_house.Core.Services
 {
     public interface IMusicaLInstrumentService
     {
-        IEnumerable<MusicalInstrument> Get();
+        Task<IEnumerable<MusicalInstrument>> Get();
 
-        MusicalInstrument Get(int id);
+        Task<MusicalInstrument> Get(int id);
 
-        MusicalInstrument Post([FromBody] MusicalInstrument m);
+        Task<MusicalInstrument> Post(MusicalInstrument m);
 
-        MusicalInstrument Put(int id, [FromBody] MusicalInstrument m);
+        Task<MusicalInstrument> Put(int id, MusicalInstrument m);
 
-        void Delete(int id);
+        Task Delete(int id);
     }
 }

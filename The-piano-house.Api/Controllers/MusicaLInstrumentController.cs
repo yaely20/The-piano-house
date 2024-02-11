@@ -25,16 +25,16 @@ namespace The_piano_house.Api.Controllers
         } 
         // GET: api/<MusicaLInstrumentController>
         [HttpGet]
-        public ActionResult<MusicalInstrument> Get()
+        public async Task <ActionResult<MusicalInstrument>> Get()
         {
-            return Ok(_musicaLInstrumentService.Get());
+            return Ok (await _musicaLInstrumentService.Get());
         }
 
         // GET api/<MusicaLInstrumentController>/5
         [HttpGet("{id}")]
-        public ActionResult<MusicalInstrument> Get(int id)
+        public async Task <ActionResult<MusicalInstrument>> Get(int id)
         {
-            return Ok( _musicaLInstrumentService.Get(id));
+            return Ok( await _musicaLInstrumentService.Get(id));
 
             //if (ev == null)
             //   return NotFound();
@@ -43,11 +43,11 @@ namespace The_piano_house.Api.Controllers
 
         // POST api/<MusicaLInstrumentController>
         [HttpPost]
-        public ActionResult Post([FromBody] MusicalInstrumentPostModel m)
+        public async Task <ActionResult> Post([FromBody] MusicalInstrumentPostModel m)
         {
             var mToAdd = new MusicalInstrument { Name = m.Name, Manufacturer = m.Manufacturer, CostPrice = m.CostPrice, PurchasePrice=m.PurchasePrice, Stockpile=m.Stockpile,ProviderId=m.ProviderId };
 
-            var newm = _musicaLInstrumentService.Post(mToAdd);
+            var newm = await _musicaLInstrumentService.Post(mToAdd);
             var mDto = _mapper.Map<MusicalInstrumentDTO>(newm);
             return Ok(mToAdd);
 
@@ -56,7 +56,7 @@ namespace The_piano_house.Api.Controllers
 
         // PUT api/<MusicaLInstrumentController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] MusicalInstrumentPostModel m)
+        public async Task <ActionResult> Put(int id, [FromBody] MusicalInstrumentPostModel m)
         {
            MusicalInstrument mmm=new MusicalInstrument();
             mmm.Name = m.Name;  
@@ -65,7 +65,7 @@ namespace The_piano_house.Api.Controllers
             mmm.PurchasePrice = m.PurchasePrice;
             mmm.Stockpile = m.Stockpile;   
             mmm.ProviderId = m.ProviderId;
-            var newmm = _musicaLInstrumentService.Put(id, mmm);
+            var newmm = await _musicaLInstrumentService.Put(id, mmm);
             var mDto = _mapper.Map<MusicalInstrumentDTO>(newmm);
             return Ok(mmm);
             // if (ev == null)
@@ -77,14 +77,14 @@ namespace The_piano_house.Api.Controllers
 
         // DELETE api/<MusicaLInstrumentController>/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        public  async Task <ActionResult> Delete(int id)
         {
-            var mu = _musicaLInstrumentService.Get(id);
+            var mu = await _musicaLInstrumentService.Get(id);
             if (mu is null)
             {
                 return NotFound();
             }
-            _musicaLInstrumentService.Delete(id);
+            await  _musicaLInstrumentService.Delete(id);
             return NoContent();
             //if (ev == null)
             //   return NotFound();

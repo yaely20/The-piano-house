@@ -20,28 +20,28 @@ namespace The_Piano_house.Servise
             _providerRepository = ProviderRepository;
         }
 
-        public IEnumerable<Provider> Get()
+        public async Task<IEnumerable<Provider>> Get()
         {
-          return  _providerRepository.Get();
+          return await _providerRepository.Get();
         }
 
-        public Provider Get(int id)
+        public async Task<Provider> Get(int id)
         {
-            return _providerRepository.Get(id);
+            return await _providerRepository.Get(id);
         }
 
-        public Provider Post( Provider p)
+        public async Task <Provider> Post( Provider p)
         {
-         return  _providerRepository.Post(p); 
+         return await _providerRepository.Post(p); 
         }
 
-        public Provider Put(int id, Provider p)
+        public async Task <Provider> Put(int id, Provider p)
         {
-         return   _providerRepository.Put(id, p); 
+         return await  _providerRepository.Put(id, p); 
         }
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-        _providerRepository.Delete(id);  
+            await  _providerRepository.Delete(id);  
         }
     }
 }
