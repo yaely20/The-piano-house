@@ -5,6 +5,7 @@ using The_Piano_house.Core.Repositories;
 using The_Piano_house.Core.Services;
 using The_Piano_house.Data.Repositories;
 using The_Piano_house.Servise;
+using Web.Net.API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,9 +40,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.UseMiddleware<TrackMiddleware>();
 
 app.MapControllers();
 

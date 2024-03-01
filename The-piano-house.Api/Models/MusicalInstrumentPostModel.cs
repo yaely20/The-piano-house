@@ -7,7 +7,6 @@
         public double CostPrice { get; set; }
         public double PurchasePrice { get; set; }
         public int Stockpile { get; set; }
-         
         public int ProviderId { get; set; }
     }
 }

@@ -46,26 +46,30 @@ namespace The_Piano_house.Data.Repositories
         public async Task<Customer> Post( Customer c)
         {
 
-            _context.Customers.Add(new Customer { Id = c.Id, Name = c.Name, Phone = c.Phone, Address = c.Address, LastPurchaseDate = c.LastPurchaseDate });
-         await   _context.SaveChangesAsync();
+            _context.Customers.Add(c);
+             await   _context.SaveChangesAsync();
             return c;
         }
 
-        public async Task <Customer> Put(int id, Customer c)
+        public async Task<Customer> Put(int id, Customer c)
         {
             var ev = await Get(id);
+            if (ev != null)
+            { 
             ev.Name = c.Name;
             ev.Address = c.Address;
             ev.LastPurchaseDate = c.LastPurchaseDate;
             ev.Phone = c.Phone;
-          await  _context.SaveChangesAsync();
-            return ev;
+            await _context.SaveChangesAsync();
+                
+            }
+        return ev ;
         }
         public async Task  Delete(int id)
         {
             var ev = await Get(id);
             _context.Customers.Remove(ev);
-         await _context.SaveChangesAsync();
+           await _context.SaveChangesAsync();
 
         }
 

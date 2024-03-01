@@ -12,8 +12,8 @@ using The_piano_house.Data;
 namespace The_Piano_house.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240103083243_yaely100")]
-    partial class yaely100
+    [Migration("20240221084831_yaely200")]
+    partial class yaely200
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

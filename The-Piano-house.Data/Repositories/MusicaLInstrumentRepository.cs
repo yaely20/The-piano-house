@@ -36,7 +36,7 @@ namespace The_Piano_house.Data.Repositories
 
         public async Task< MusicalInstrument> Post( MusicalInstrument m)
         {
-            _context.MusicaLInstruments.Add(new MusicalInstrument {Id = _context.index++, Name = m.Name, Manufacturer = m.Manufacturer, CostPrice = m.CostPrice, PurchasePrice = m.PurchasePrice, Stockpile = m.Stockpile, ProviderCode = m.ProviderCode });
+            _context.MusicaLInstruments.Add(m);
           await  _context.SaveChangesAsync();
             return m;
         }
@@ -44,13 +44,16 @@ namespace The_Piano_house.Data.Repositories
         public async Task< MusicalInstrument> Put(int id,  MusicalInstrument m)
         {
             var ev = await Get(id);
-            ev.Name = m.Name;
-            ev.Manufacturer = m.Manufacturer;
-            ev.CostPrice = m.CostPrice;
-            ev.PurchasePrice = m.PurchasePrice;
-            ev.Stockpile = m.Stockpile;
-            ev.ProviderCode = m.ProviderCode;
-          await  _context.SaveChangesAsync();
+            if (ev != null)
+            {
+                ev.Name = m.Name;
+                ev.Manufacturer = m.Manufacturer;
+                ev.CostPrice = m.CostPrice;
+                ev.PurchasePrice = m.PurchasePrice;
+                ev.Stockpile = m.Stockpile;
+                ev.ProviderCode = m.ProviderCode;
+                await _context.SaveChangesAsync();
+            }
             return ev;
         }
      public async Task Delete(int id)

@@ -35,7 +35,7 @@ namespace The_Piano_house.Data.Repositories
         public async Task <Provider> Post( Provider p)
         {
             
-            _context.Providers.Add(new Provider { Id = p.Id, Name = p.Name, Phone = p.Phone, Address = p.Address });
+            _context.Providers.Add( p);
            await  _context.SaveChangesAsync();
             return p;
         }
@@ -43,10 +43,13 @@ namespace The_Piano_house.Data.Repositories
         public async Task <Provider> Put(int id,  Provider p)
         {
             var ev = await Get(id);
-            ev.Name = p.Name;
-            ev.Address = p.Address;
-            ev.Phone = p.Phone;
-            await  _context.SaveChangesAsync();
+            if (ev != null)
+            {
+                ev.Name = p.Name;
+                ev.Address = p.Address;
+                ev.Phone = p.Phone;
+                await _context.SaveChangesAsync();
+            }
             return ev;
 
         }

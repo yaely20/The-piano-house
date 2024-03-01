@@ -5,6 +5,7 @@ using The_Piano_house.Core.DTOs;
 using The_Piano_house.Core.Services;
 using The_Piano_house.Servise;
 using The_piano_house.Api.Models;
+using System.Xml.Linq;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -27,14 +28,18 @@ namespace The_piano_house.Api.Controllers
         [HttpGet]
         public async Task <ActionResult<MusicalInstrument>> Get()
         {
-            return Ok (await _musicaLInstrumentService.Get());
-        }
+            var x = await _musicaLInstrumentService.Get();
+            return Ok(_mapper.Map<ActionResult<MusicalInstrumentDTO>>(x));
+        }       
 
         // GET api/<MusicaLInstrumentController>/5
         [HttpGet("{id}")]
         public async Task <ActionResult<MusicalInstrument>> Get(int id)
         {
-            return Ok( await _musicaLInstrumentService.Get(id));
+
+            var m = await _musicaLInstrumentService.Get(id);
+            return  Ok(_mapper.Map<MusicalInstrumentDTO>(m));
+           
 
             //if (ev == null)
             //   return NotFound();
@@ -45,29 +50,21 @@ namespace The_piano_house.Api.Controllers
         [HttpPost]
         public async Task <ActionResult> Post([FromBody] MusicalInstrumentPostModel m)
         {
-            var mToAdd = new MusicalInstrument { Name = m.Name, Manufacturer = m.Manufacturer, CostPrice = m.CostPrice, PurchasePrice=m.PurchasePrice, Stockpile=m.Stockpile,ProviderId=m.ProviderId };
-
-            var newm = await _musicaLInstrumentService.Post(mToAdd);
-            var mDto = _mapper.Map<MusicalInstrumentDTO>(newm);
-            return Ok(mToAdd);
-
-          
+            var newMusicInstrument = new MusicalInstrument();
+            _mapper.Map(m, newMusicInstrument);
+            await _musicaLInstrumentService.Post(newMusicInstrument);
+            return Ok(newMusicInstrument);
         }
 
         // PUT api/<MusicaLInstrumentController>/5
         [HttpPut("{id}")]
         public async Task <ActionResult> Put(int id, [FromBody] MusicalInstrumentPostModel m)
         {
-           MusicalInstrument mmm=new MusicalInstrument();
-            mmm.Name = m.Name;  
-            mmm.Manufacturer = m.Manufacturer;
-            mmm.CostPrice = m.CostPrice;
-            mmm.PurchasePrice = m.PurchasePrice;
-            mmm.Stockpile = m.Stockpile;   
-            mmm.ProviderId = m.ProviderId;
-            var newmm = await _musicaLInstrumentService.Put(id, mmm);
-            var mDto = _mapper.Map<MusicalInstrumentDTO>(newmm);
-            return Ok(mmm);
+            var musical = await _musicaLInstrumentService.Get(id);
+            if (musical == null)
+                            return NotFound();
+            _mapper.Map(m, musical);
+            return Ok(await _musicaLInstrumentService.Put(id, musical));
             // if (ev == null)
             // return NotFound();
 
@@ -85,7 +82,7 @@ namespace The_piano_house.Api.Controllers
                 return NotFound();
             }
             await  _musicaLInstrumentService.Delete(id);
-            return NoContent();
+            return Ok();
             //if (ev == null)
             //   return NotFound();
         }

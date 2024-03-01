@@ -5,6 +5,7 @@ using The_Piano_house.Core.DTOs;
 using The_Piano_house.Core.Services;
 using The_Piano_house.Servise;
 using The_piano_house.Api.Models;
+using System.Xml.Linq;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -28,15 +29,16 @@ namespace The_piano_house.Api.Controllers
         [HttpGet]
         public async Task <ActionResult<Provider>> Get()
         {
-            return Ok(await _providerService.Get());
+            var x = await _providerService.Get();
+            return Ok( _mapper.Map<List<ProviderDTO>>(x));
         }
 
         // GET api/<ProviderController>/5
         [HttpGet("{id}")]
         public async Task< ActionResult<Provider>> Get(int id)
         {
-
-            return Ok( await _providerService.Get(id));
+            var provider = await _providerService.Get(id);
+            return Ok(_mapper.Map<ProviderDTO>(provider));
             //if (ev == null)
             //   return NotFound();
 
@@ -46,11 +48,10 @@ namespace The_piano_house.Api.Controllers
         [HttpPost]
         public async Task <ActionResult> Post([FromBody] ProviderPostModel p)
         {
-            var pToadd = new Provider { Name = p.Name, Phone = p.Phone, Address = p.Address };
-
-            var newp = await _providerService.Post(pToadd); 
-            var custumerDto = _mapper.Map<ProviderDTO>(newp);
-            return Ok(pToadd);
+            Provider newProvider = new Provider();
+            _mapper.Map(p, newProvider);
+            await _providerService.Post(newProvider);
+            return Ok(newProvider);
             // if (p.id.ToString().Length != 9)
             //    return BadRequest();
            
@@ -62,16 +63,12 @@ namespace The_piano_house.Api.Controllers
         public async Task<ActionResult> Put(int id, [FromBody] ProviderPostModel p)
         {
 
-            Provider p1 = new Provider();
-            p1.Name = p.Name;
-            p1.Phone = p.Phone;
-            p1.Address = p.Address;
-            var newp = await _providerService.Put(id, p1);
-            var custumerDto = _mapper.Map<ProviderDTO>(newp);
+            var provider = await _providerService.Get(id);
+            if (provider == null)
+                return NotFound();
+            _mapper.Map(p, provider);
+            return Ok(    await _providerService.Put(id, provider));
 
-            //if (ev == null)
-            //   return NotFound();
-            return Ok(p1 );
         }
 
         // DELETE api/<ProviderController>/5
@@ -83,9 +80,8 @@ namespace The_piano_house.Api.Controllers
             {
                 return NotFound();
             }
-
          await _providerService.Delete(id);
-            return NoContent();
+            return Ok();
             // if (ev == null)
             //    return NotFound();
         }

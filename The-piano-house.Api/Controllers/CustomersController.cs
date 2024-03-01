@@ -25,10 +25,11 @@ namespace The_piano_house.Api.Controllers
 
         // GET: api/<CustomersController>
         [HttpGet]
-        public async Task<ActionResult> Get()
+        public async Task <ActionResult<CustumerDTO>> Get()
         {
-
-            return Ok( await _customersService.Get());
+            var x = await _customersService.Get();
+            return Ok(_mapper.Map<ActionResult<CustumerDTO>>(x));
+            
         }
 
 
@@ -37,7 +38,8 @@ namespace The_piano_house.Api.Controllers
         // public ActionResult< Customers> Get(int id)
         public async Task <ActionResult> Get(int id)
         {
-            return Ok( await _customersService.Get(id));
+            var c=await _customersService.Get(id);
+            return Ok( _mapper.Map<CustumerDTO>(c));
             // var ev = _conect.CustomersList.Find(e => e.id == id);
 
             //   if (ev == null)
@@ -52,11 +54,10 @@ namespace The_piano_house.Api.Controllers
         //  public ActionResult Post([FromBody] Customers c)
         public  async Task <ActionResult> Post([FromBody] CustomerPostModel c)
         {
-            var CustomerToAdd = new Customer { Name = c.Name, Phone=c.Phone,Address=c.Address };
+            var CustomerToAdd = new Customer ();
 
-            var newCust=await _customersService.Post(CustomerToAdd);
-            var custumerDto = _mapper.Map<CustumerDTO>(newCust);
-            return Ok(CustomerToAdd);
+             _mapper.Map(c,CustomerToAdd);
+            return Ok (  await _customersService.Post(CustomerToAdd));
             // return Ok();
             //if (c.id.ToString().Length != 9)
             //    return BadRequest();
@@ -70,13 +71,12 @@ namespace The_piano_house.Api.Controllers
         // public ActionResult Put(int id, [FromBody] Customers c)
         public async Task <ActionResult> Put(int id, [FromBody] CustomerPostModel c)
         {
-            Customer c1 = new Customer();
-            c1.Name = c.Name;
-            c1.Phone = c.Phone;
-            c1.Address = c.Address;
-            var newc= await _customersService.Put(id, c1);
-            var custumerDto = _mapper.Map<CustumerDTO>(newc);
-            return Ok(c1);
+            var   customer  = await _customersService.Get(id);
+            if (customer is null)
+                return NotFound();
+            _mapper.Map(c, customer);
+           await _customersService.Put(id, customer);
+            return Ok();
 
             // if (ev == null)
             //    return NotFound();
@@ -97,7 +97,7 @@ namespace The_piano_house.Api.Controllers
                 return NotFound();
             }
             await  _customersService.Delete(id);
-            return NoContent();
+            return Ok();
             //if (ev == null)
             //   return NotFound();             
             //  return Ok();      
