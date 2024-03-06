@@ -5,13 +5,14 @@ using The_piano_house.Core.Entities;
 using The_Piano_house.Core.Services;
 using The_Piano_house.Servise;
 using The_Piano_house.Core.DTOs;
-
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace The_piano_house.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+   
     public class CustomersController : ControllerBase
     {
         private readonly ICustomersService _customersService;

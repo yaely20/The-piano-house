@@ -6,6 +6,7 @@ using The_Piano_house.Core.Services;
 using The_Piano_house.Servise;
 using The_piano_house.Api.Models;
 using System.Xml.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -14,6 +15,7 @@ namespace The_piano_house.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProviderController : ControllerBase
     {
         private readonly IProviderService _providerService;
