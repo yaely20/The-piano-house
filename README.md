@@ -1,77 +1,83 @@
-__class: musicalInstrument__
-============================
-fields:
--------
-- code
-- name
-- manufacturer
-- costPrice
-- purchasePrice
-- stockpile
-- providerCode
+# Musical Instruments Management System
 
-get:
-[https://musicalInstumentsAPI.com/musicalInstument/](https://musicalInstumentsAPI.com/musicalInstument/)    
+## Overview
 
-get(id):
-[https://musicalInstumentsAPI.com/musicalInstument/{id}/](https://musicalInstumentsAPI.com/musicalInstument/{id}/)    
+This project is a full-stack application designed for managing a musical instruments business. It includes systems for managing suppliers and customers. The server side is built with C# in .NET Core 6, and the client side uses JavaScript. The architecture adheres to SOLID principles and utilizes Entity Framework for database interactions. The project also integrates with an SQL database.
 
-post:
-[https://musicalInstumentsAPI.com/musicalInstument?code={id}&name=""...](https://musicalInstumentsAPI.com/musicalInstument?code={id}&name=""...)    
+## Architecture Notes
 
-put:
-[https://musicalInstumentsAPI.com/musicalInstument/{id}?name=""...](https://musicalInstumentsAPI.com/musicalInstument/{id}?name=""...)    
-
-delete:
-[https://musicalInstumentsAPI.com/musicalInstument/{id}/](https://musicalInstumentsAPI.com/musicalInstument/{id}/)    
+-   Follow SOLID principles in the architecture of both server and client sides.
+-   Use Entity Framework for database interactions to maintain data integrity and consistency.
 
 
-__class: provider__
-===================
-fields:
--------
-- id
-- name
-- phone
-- address
+## API Documentation
 
-get:
-[https://musicalInstumentsAPI.com/provider/](https://musicalInstumentsAPI.com/provider/)
+### **Class: musicalInstrument**
 
-get(id):
-[https://musicalInstumentsAPI.com/provider/{id}/](https://musicalInstumentsAPI.com/provider/{id}/)
+#### Fields:
 
-post:
-[https://musicalInstumentsAPI.com/provider?code={id}&name=""...](https://musicalInstumentsAPI.com/provider?code={id}&name=""...)
+-   **code**: Unique identifier for the instrument.
+-   **name**: Name of the instrument.
+-   **manufacturer**: Manufacturer of the instrument.
+-   **costPrice**: Cost price of the instrument.
+-   **purchasePrice**: Purchase price of the instrument.
+-   **stockpile**: Number of items in stock.
+-   **providerCode**: Code of the provider.
 
-put:
-[https://musicalInstumentsAPI.com/provider/{id}?name=""...](https://musicalInstumentsAPI.com/provider/{id}?name=""...)
+#### Endpoints:
 
-delete:
-[https://musicalInstumentsAPI.com/provider/{id}/](https://musicalInstumentsAPI.com/provider/{id}/)
+-   **GET**: Retrieve all instruments.
+    -   `https://musicalInstrumentsAPI.com/musicalInstrument/`
+-   **GET (id)**: Retrieve a specific instrument by ID.
+    -   `https://musicalInstrumentsAPI.com/musicalInstrument/{id}/`
+-   **POST**: Add a new instrument.
+    -   `https://musicalInstrumentsAPI.com/musicalInstrument?code={id}&name=...`
+-   **PUT**: Update an existing instrument by ID.
+    -   `https://musicalInstrumentsAPI.com/musicalInstrument/{id}?name=...`
+-   **DELETE**: Delete an instrument by ID.
+    -   `https://musicalInstrumentsAPI.com/musicalInstrument/{id}/`
 
+### **Class: provider**
 
-__class: customers__
-====================
-fields:
--------
-- id
-- name
-- phone
-- address
-- lastPurchaseDate
+#### Fields:
 
-get:
-[https://musicalInstumentsAPI.com/customers/](https://musicalInstumentsAPI.com/customers/)
+-   **id**: Unique identifier for the provider.
+-   **name**: Name of the provider.
+-   **phone**: Phone number of the provider.
+-   **address**: Address of the provider.
 
-get(id):
-[https://musicalInstumentsAPI.com/customers/{id}/](https://musicalInstumentsAPI.com/customers/{id}/)
+#### Endpoints:
 
-post:
-[https://musicalInstumentsAPI.com/customers?code=&name=""...](https://musicalInstumentsAPI.com/customers?code=&name=""...)
+-   **GET**: Retrieve all providers.
+    -   `https://musicalInstrumentsAPI.com/provider/`
+-   **GET (id)**: Retrieve a specific provider by ID.
+    -   `https://musicalInstrumentsAPI.com/provider/{id}/`
+-   **POST**: Add a new provider.
+    -   `https://musicalInstrumentsAPI.com/provider?code={id}&name=...`
+-   **PUT**: Update an existing provider by ID.
+    -   `https://musicalInstrumentsAPI.com/provider/{id}?name=...`
+-   **DELETE**: Delete a provider by ID.
+    -   `https://musicalInstrumentsAPI.com/provider/{id}/`
 
-put:
-[https://musicalInstumentsAPI.com/customers/{id}?name=""...](https://musicalInstumentsAPI.com/customers/{id}?name=""...)
+### **Class: customers**
 
-delete:
-[https://musicalInstumentsAPI.com/customers/{id}/](https://musicalInstumentsAPI.com/customers/{id}/)
+#### Fields:
+
+-   **id**: Unique identifier for the customer.
+-   **name**: Name of the customer.
+-   **phone**: Phone number of the customer.
+-   **address**: Address of the customer.
+-   **lastPurchaseDate**: Date of the last purchase made by the customer.
+
+#### Endpoints:
+
+-   **GET**: Retrieve all customers.
+    -   `https://musicalInstrumentsAPI.com/customers/`
+-   **GET (id)**: Retrieve a specific customer by ID.
+    -   `https://musicalInstrumentsAPI.com/customers/{id}/`
+-   **POST**: Add a new customer.
+    -   `https://musicalInstrumentsAPI.com/customers?code=&name=...`
+-   **PUT**: Update an existing customer by ID.
+    -   `https://musicalInstrumentsAPI.com/customers/{id}?name=...`
+-   **DELETE**: Delete a customer by ID.
+    -   `https://musicalInstrumentsAPI.com/customers/{id}/`
